@@ -38,6 +38,8 @@ class WidgetShotRenderRepaintBoundary extends RenderRepaintBoundary {
     Color? backgroundColor,
     ShotFormat format = ShotFormat.png,
     int quality = 100,
+    Duration delay = const Duration(milliseconds: 200),
+    Duration delaySmall = const Duration(milliseconds: 16),
   }) async {
     pixelRatio ??= window.devicePixelRatio;
     if (quality > 100) {
@@ -67,7 +69,7 @@ class WidgetShotRenderRepaintBoundary extends RenderRepaintBoundary {
 
     if (canScroll) {
       scrollController.jumpTo(0);
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(delay);
     }
 
     var firstImage = await _screenshot(pixelRatio);
@@ -102,7 +104,7 @@ class WidgetShotRenderRepaintBoundary extends RenderRepaintBoundary {
 
           if (scrollHeight > sHeight * i) {
             scrollController.jumpTo(sHeight * i);
-            await Future.delayed(const Duration(milliseconds: 16));
+            await Future.delayed(delaySmall);
             i++;
 
             Uint8List image = await _screenshot(pixelRatio);
@@ -117,7 +119,7 @@ class WidgetShotRenderRepaintBoundary extends RenderRepaintBoundary {
             lastImageHeight = scrollController.position.maxScrollExtent + sHeight - sHeight * i;
 
             scrollController.jumpTo(scrollController.position.maxScrollExtent);
-            await Future.delayed(const Duration(milliseconds: 16));
+            await Future.delayed(delaySmall);
 
             Uint8List lastImage = await _screenshot(pixelRatio);
 
@@ -130,7 +132,7 @@ class WidgetShotRenderRepaintBoundary extends RenderRepaintBoundary {
             imageHeight += lastImageHeight * pixelRatio;
           } else {
             scrollController.jumpTo(scrollHeight);
-            await Future.delayed(const Duration(milliseconds: 16));
+            await Future.delayed(delaySmall);
           }
         } else {
           break;
