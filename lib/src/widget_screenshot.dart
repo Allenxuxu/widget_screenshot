@@ -69,8 +69,8 @@ class WidgetShotRenderRepaintBoundary extends RenderRepaintBoundary {
 
     if (canScroll) {
       scrollController.jumpTo(0);
-      await Future.delayed(delay);
     }
+    await Future.delayed(delay);
 
     var firstImage = await _screenshot(pixelRatio);
 
